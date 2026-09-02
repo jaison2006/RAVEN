@@ -34,16 +34,16 @@ export default function MissionComplete({ state, onReset }: Props) {
 
         <div className="font-display text-[9px] tracking-[0.3em] text-[#4a8070] mb-2">AUTONOMOUS MISSION</div>
         <div className="font-display text-[22px] font-bold text-[#00ff8c] mb-1 tracking-wide">
-          COMPLETED
+          ARRIVED
         </div>
         <div className="font-display text-[10px] tracking-widest text-[#00c070] mb-6">
-          DELIVERED SAFELY
+          DESTINATION REACHED
         </div>
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           {[
-            { l: 'BASE-01 → ZONE-07', v: 'SUCCESS' },
+            { l: 'DESTINATION ZONE-07', v: 'ARRIVED' },
             { l: 'HAZARDS DETECTED', v: String(state.hazardsDetected) },
             { l: 'AUTONOMOUS REROUTES', v: String(state.reroutes) },
             { l: 'FINAL RISK SCORE', v: `${state.routes.find(r => r.status === 'ACTIVE')?.currentRisk ?? state.finalRisk}%` },
