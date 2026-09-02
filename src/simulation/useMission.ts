@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { MissionState, LogEntry, Hazard, MeshMessage, AIDecision, CommNode, Vec3 } from './types';
-import { INITIAL_ROUTES, INITIAL_NODES, HAZARD_POSITION, HAZARD_RADIUS, interpolateRoute } from '../data/mapData';
+import { INITIAL_ROUTES, INITIAL_NODES, HAZARD_POSITION, HAZARD_RADIUS, SOURCE_POS, interpolateRoute } from '../data/mapData';
 import { applyHazardToRoute, selectBestRoute, computeRisk, getRouteStatus } from './riskEngine';
 import { initializeSensorState, computeOverallConfidence } from './sensorEngine';
 import { getTerrainAnalysis, getYoloObject } from './hazardEngine';
