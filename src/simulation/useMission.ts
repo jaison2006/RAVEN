@@ -210,7 +210,8 @@ export function useMission() {
 
         if (!bestId || !bestRoute) {
           addLog('AI', 'No safe route available — evaluating risk override', 'ERROR');
-          return { ...s, phase: 'COMPLETED', demoPhaseLabel: 'NO SAFE ROUTE', systemStatus: 'CRITICAL' };
+          phaseRef.current = 'SAFE_HOLD';
+          return { ...s, phase: 'SAFE_HOLD', demoPhaseLabel: 'NO SAFE ROUTE', vehicleNavigationMode: 'STOPPED', systemStatus: 'CRITICAL' };
         }
 
         // Calculate vehicle's current position on the old route
@@ -387,7 +388,8 @@ export function useMission() {
 
             if (!bestId || !bestRoute) {
               addLog('AI', 'No safe alternative — mission aborted', 'ERROR');
-              return { ...s, phase: 'COMPLETED', demoPhaseLabel: 'NO SAFE ROUTE', systemStatus: 'CRITICAL' };
+              phaseRef.current = 'SAFE_HOLD';
+              return { ...s, phase: 'SAFE_HOLD', demoPhaseLabel: 'NO SAFE ROUTE', vehicleNavigationMode: 'STOPPED', systemStatus: 'CRITICAL' };
             }
 
             const entryIndex = Math.max(1, Math.min(bestRoute.waypoints.length - 1,

@@ -9,6 +9,7 @@ export type MissionPhase =
   | 'RISK_EVALUATION'
   | 'REROUTING'
   | 'RESUMED'
+  | 'SAFE_HOLD'
   | 'COMPLETED';
 
 export type HazardType = 'LANDSLIDE' | 'ROAD_BLOCK' | 'FIRE' | 'OBSTACLE' | 'DAMAGED_ROAD' | 'FLOOD' | 'SMOKE' | 'UNSTABLE_TERRAIN';
