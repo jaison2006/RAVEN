@@ -11,8 +11,8 @@ export type MissionPhase =
   | 'RESUMED'
   | 'COMPLETED';
 
-export type HazardType = 'LANDSLIDE' | 'ROAD_BLOCK' | 'FIRE' | 'OBSTACLE' | 'DAMAGED_ROAD';
-export type LogType = 'INFO' | 'WARN' | 'ERROR' | 'SUCCESS' | 'AI' | 'MESH';
+export type HazardType = 'LANDSLIDE' | 'ROAD_BLOCK' | 'FIRE' | 'OBSTACLE' | 'DAMAGED_ROAD' | 'FLOOD' | 'SMOKE' | 'UNSTABLE_TERRAIN';
+export type LogType = 'INFO' | 'WARN' | 'ERROR' | 'SUCCESS' | 'AI' | 'MESH' | 'SENSOR' | 'TERRAIN';
 
 export interface Vec3 {
   x: number;
@@ -31,6 +31,7 @@ export interface Route {
   sensorConfidence: number;
   currentRisk: number;
   status: RouteStatus;
+  blockedWaypoints?: number[]; // Indices of waypoints blocked by hazards
 }
 
 export interface CommNode {
@@ -45,7 +46,9 @@ export interface Hazard {
   id: string;
   type: HazardType;
   position: Vec3;
-  routeId: string;
+  radius: number; // Hazard collision radius in world units
+  affectedRouteId: string;
+  affectedNodeIndex?: number; // Which waypoint index this hazard blocks
   confidence: number;
   severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
   timestamp: string;
@@ -92,19 +95,32 @@ export interface MissionState {
   progress: number;
   activeRouteId: string;
   vehicleT: number; // 0-1 along active route
+  vehiclePosition: Vec3;
+  vehicleNavigationMode: 'STOPPED' | 'FOLLOWING_ROUTE' | 'TRANSITIONING' | 'COMPLETED';
   routes: Route[];
   nodes: CommNode[];
   hazards: Hazard[];
   log: LogEntry[];
   missionRiskLimit: number;
   reroutes: number;
+  routeHistory: string[]; // Track route changes
   hazardsDetected: number;
   aiDecision: AIDecision | null;
   meshMessages: MeshMessage[];
   showYoloPanel: boolean;
   yoloDetection: { object: string; confidence: number; region: string; severity: string } | null;
   terrainAnalysis: { slope: number; elevation: number; stability: string; landslideRisk: number };
+  sensorFusion: {
+    camera: number;
+    gps: number;
+    imu: number;
+    terrain: number;
+    mesh: number;
+  };
+  riskHistory: Array<{ time: number; risk: number }>;
   startTime: number;
   totalDistance: number;
   finalRisk: number;
+  missionDuration: number;
+  systemStatus: 'OPERATIONAL' | 'WARNING' | 'CRITICAL' | 'IDLE';
 }

@@ -325,9 +325,9 @@ interface TerrainSceneProps {
 
 export default function TerrainScene({ state }: TerrainSceneProps) {
   const vehicleRoute = state.routes.find(r => r.id === state.activeRouteId);
-  const vehiclePos = vehicleRoute
+  const vehiclePos = state.vehiclePosition ?? (vehicleRoute
     ? interpolateRoute(vehicleRoute.waypoints, state.vehicleT)
-    : SOURCE_POS;
+    : SOURCE_POS);
 
   const isActive = state.phase !== 'IDLE' && state.phase !== 'INITIALIZING' && state.phase !== 'ROUTE_ANALYSIS';
 

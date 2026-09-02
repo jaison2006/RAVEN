@@ -121,6 +121,9 @@ export const INITIAL_NODES: CommNode[] = [
 // Hazard spawn position — on Route A, about 40% along
 export const HAZARD_POSITION: Vec3 = wp(-1.5, 1.2, 0.3);
 
+// Hazard collision radius (vehicle must not enter this radius)
+export const HAZARD_RADIUS = 1.0;
+
 // Interpolate position along a route by t (0-1)
 export function interpolateRoute(waypoints: Vec3[], t: number): Vec3 {
   if (t <= 0) return waypoints[0];
@@ -139,4 +142,35 @@ export function interpolateRoute(waypoints: Vec3[], t: number): Vec3 {
     y: a.y + (b.y - a.y) * segT,
     z: a.z + (b.z - a.z) * segT,
   };
+}
+
+// Calculate 3D distance between two points
+export function distance3D(p1: Vec3, p2: Vec3): number {
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const dz = p2.z - p1.z;
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+// Check if position intersects hazard radius
+export function checkHazardCollision(vehiclePos: Vec3, hazardPos: Vec3, hazardRadius: number): boolean {
+  return distance3D(vehiclePos, hazardPos) < hazardRadius;
+}
+
+// Find the closest point on the route (by t value) to a given position
+export function findClosestRoutePoint(waypoints: Vec3[], targetPos: Vec3): number {
+  let closestT = 0;
+  let closestDist = Infinity;
+
+  // Sample the route at fine intervals to find closest point
+  for (let t = 0; t <= 1; t += 0.01) {
+    const pt = interpolateRoute(waypoints, t);
+    const dist = distance3D(pt, targetPos);
+    if (dist < closestDist) {
+      closestDist = dist;
+      closestT = t;
+    }
+  }
+
+  return closestT;
 }

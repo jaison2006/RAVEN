@@ -9,6 +9,10 @@ import NetworkTopology from './components/NetworkTopology';
 import MissionControls from './components/MissionControls';
 import MissionComplete from './components/MissionComplete';
 import HazardAlert from './components/HazardAlert';
+import SensorFusionPanel from './components/SensorFusionPanel';
+import TerrainAnalysisPanel from './components/TerrainAnalysisPanel';
+import MissionAnalyticsPanel from './components/MissionAnalyticsPanel';
+import SystemHealthPanel from './components/SystemHealthPanel';
 
 function Panel({
   children,
@@ -55,13 +59,26 @@ export default function App() {
         className="flex flex-1 gap-1.5 p-1.5 overflow-hidden"
         style={{ minHeight: 0 }}
       >
-        {/* Left column */}
-        <div className="flex flex-col gap-1.5" style={{ width: '220px', flexShrink: 0 }}>
+        {/* Left column - Mission Info */}
+        <div className="flex flex-col gap-1.5" style={{ width: '180px', flexShrink: 0 }}>
           <Panel style={{ flex: '1 1 0', minHeight: 0 }}>
             <RoutePanel state={state} />
           </Panel>
-          <Panel style={{ height: '170px', flexShrink: 0 }}>
+          <Panel style={{ height: '140px', flexShrink: 0 }}>
             <NetworkTopology nodes={state.nodes} messages={state.meshMessages} />
+          </Panel>
+          <Panel style={{ height: '120px', flexShrink: 0 }}>
+            <SystemHealthPanel state={state} />
+          </Panel>
+        </div>
+
+        {/* Second column - Analysis Panels */}
+        <div className="flex flex-col gap-1.5" style={{ width: '160px', flexShrink: 0 }}>
+          <Panel style={{ flex: '1 1 0', minHeight: 0 }}>
+            <SensorFusionPanel state={state} />
+          </Panel>
+          <Panel style={{ height: '150px', flexShrink: 0 }}>
+            <TerrainAnalysisPanel state={state} />
           </Panel>
         </div>
 
@@ -125,29 +142,31 @@ export default function App() {
           )}
         </div>
 
-        {/* Right column */}
-        <div className="flex flex-col gap-1.5" style={{ width: '240px', flexShrink: 0 }}>
+        {/* Right column - AI & Analytics */}
+        <div className="flex flex-col gap-1.5" style={{ width: '210px', flexShrink: 0 }}>
           <Panel style={{ flex: '1 1 0', minHeight: 0 }}>
             <AIDecisionPanel state={state} />
           </Panel>
+          <Panel style={{ height: '140px', flexShrink: 0 }}>
+            <MissionAnalyticsPanel state={state} />
+          </Panel>
 
           {/* Innovation cards */}
-          <Panel style={{ flexShrink: 0, padding: '10px' }}>
-            <div className="font-display text-[7px] font-bold tracking-widest text-[#9b6dff] mb-2">WHY RAVEN-RX?</div>
-            <div className="grid grid-cols-2 gap-1">
+          <Panel style={{ flexShrink: 0, padding: '8px' }}>
+            <div className="font-display text-[6px] font-bold tracking-widest text-[#9b6dff] mb-1.5">RAVEN-RX TECH</div>
+            <div className="grid grid-cols-2 gap-0.5">
               {[
-                { title: 'MULTI-FACTOR FUSION', color: '#00d4ff', desc: 'Risk + sensors + priority' },
-                { title: 'RISK LIMIT', color: '#ffb800', desc: 'Rejects unsafe routes' },
-                { title: 'EXPLAINABLE AI', color: '#9b6dff', desc: 'Every decision explained' },
-                { title: 'DECENTRALIZED', color: '#00ff8c', desc: 'No central dependency' },
-              ].map(({ title, color, desc }) => (
+                { title: 'FUSION', color: '#00d4ff' },
+                { title: 'LIMIT', color: '#ffb800' },
+                { title: 'XAI', color: '#9b6dff' },
+                { title: 'MESH', color: '#00ff8c' },
+              ].map(({ title, color }) => (
                 <div
                   key={title}
-                  className="rounded p-1.5"
+                  className="rounded p-1"
                   style={{ background: `${color}08`, border: `1px solid ${color}22` }}
                 >
-                  <div className="font-mono text-[6px] font-bold mb-0.5" style={{ color }}>{title}</div>
-                  <div className="font-mono text-[6px] text-[#4a6885]">{desc}</div>
+                  <div className="font-mono text-[5px] font-bold" style={{ color }}>{title}</div>
                 </div>
               ))}
             </div>
