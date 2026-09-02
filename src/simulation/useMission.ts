@@ -488,11 +488,6 @@ export function useMission() {
         return { ...s, vehicleT: t, vehiclePosition: nextPos, vehicleNavigationMode: 'FOLLOWING_ROUTE', progress, riskHistory: newRiskHistory, missionDuration };
       });
 
-      if (nextT >= 1) {
-        addLog('NODE-05', 'ZONE-07 reached — MISSION COMPLETE', 'SUCCESS');
-        addLog('AI', 'Mission completed safely', 'SUCCESS');
-        stopTick();
-      }
     }, 50);
   }, [addLog, stopTick]);
 
