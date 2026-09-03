@@ -8,6 +8,9 @@ export type MissionPhase =
   | 'HAZARD_DETECTED'
   | 'RISK_EVALUATION'
   | 'REROUTING'
+  | 'BACKTRACKING'
+  | 'REPLANNING'
+  | 'TURNING'
   | 'RESUMED'
   | 'SAFE_HOLD'
   | 'COMPLETED';
@@ -52,8 +55,13 @@ export interface Hazard {
   affectedNodeIndex?: number; // Which waypoint index this hazard blocks
   confidence: number;
   severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  segmentId: string;
+  segmentT: number;
   timestamp: string;
   active: boolean;
+  targetNodeId: string;
+  blocking: boolean;
+  animation: 'FALLING' | 'STATIC';
 }
 
 export interface LogEntry {
@@ -97,7 +105,7 @@ export interface MissionState {
   activeRouteId: string;
   vehicleT: number; // 0-1 along active route
   vehiclePosition: Vec3;
-  vehicleNavigationMode: 'STOPPED' | 'FOLLOWING_ROUTE' | 'TRANSITIONING' | 'COMPLETED';
+  vehicleNavigationMode: 'STOPPED' | 'FOLLOWING_ROUTE' | 'TRANSITIONING' | 'BACKTRACKING' | 'REPLANNING' | 'TURNING' | 'SAFE_HOLD' | 'COMPLETED';
   routes: Route[];
   nodes: CommNode[];
   hazards: Hazard[];

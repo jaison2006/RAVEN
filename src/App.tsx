@@ -56,11 +56,11 @@ export default function App() {
 
       {/* Main content area */}
       <div
-        className="flex flex-1 gap-1.5 p-1.5 overflow-hidden"
+        className="mission-layout flex flex-1 gap-1.5 p-1.5 overflow-hidden"
         style={{ minHeight: 0 }}
       >
         {/* Left column - Mission Info */}
-        <div className="flex flex-col gap-1.5" style={{ width: '180px', flexShrink: 0 }}>
+        <div className="mission-column mission-column-left flex flex-col gap-1.5" style={{ width: '180px', flexShrink: 0 }}>
           <Panel style={{ flex: '1 1 0', minHeight: 0 }}>
             <RoutePanel state={state} />
           </Panel>
@@ -73,7 +73,7 @@ export default function App() {
         </div>
 
         {/* Second column - Analysis Panels */}
-        <div className="flex flex-col gap-1.5" style={{ width: '160px', flexShrink: 0 }}>
+        <div className="mission-column mission-column-analysis flex flex-col gap-1.5" style={{ width: '160px', flexShrink: 0 }}>
           <Panel style={{ flex: '1 1 0', minHeight: 0 }}>
             <SensorFusionPanel state={state} />
           </Panel>
@@ -83,14 +83,14 @@ export default function App() {
         </div>
 
         {/* Center: terrain map */}
-        <div className="flex-1 relative overflow-hidden rounded" style={{ minWidth: 0 }}>
+        <div className="mission-terrain flex-1 relative overflow-hidden rounded" style={{ minWidth: 0 }}>
           <div
             className="w-full h-full overflow-hidden rounded"
             style={{ border: '1px solid rgba(0,212,255,0.15)' }}
           >
             <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center bg-[#040c18]">
-                <div className="font-mono text-[11px] text-[#00d4ff] animate-blink tracking-widest">
+              <div className="w-full h-full flex items-center justify-center bg-bg">
+                <div className="font-mono text-[11px] text-cyan animate-blink tracking-widest">
                   LOADING TERRAIN...
                 </div>
               </div>
@@ -119,8 +119,8 @@ export default function App() {
                   boxShadow: '0 0 20px rgba(0,255,140,0.15)',
                 }}
               >
-                <div className="w-2 h-2 rounded-full bg-[#00ff8c] animate-pulse-dot" />
-                <span className="font-display text-[9px] font-bold tracking-widest text-[#00ff8c]">
+                <div className="w-2 h-2 rounded-full bg-green animate-pulse-dot" />
+                <span className="font-display text-[9px] font-bold tracking-widest text-green">
                   AUTONOMOUS REROUTING — ROUTE {state.activeRouteId}
                 </span>
               </div>
@@ -131,10 +131,10 @@ export default function App() {
           {state.phase === 'IDLE' && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="text-center">
-                <div className="font-display text-[28px] font-bold text-[#00d4ff] opacity-10 tracking-[0.3em]">
+                <div className="font-display text-[28px] font-bold text-cyan opacity-10 tracking-[0.3em]">
                   RAVEN-RX
                 </div>
-                <div className="font-mono text-[10px] text-[#4a6885] tracking-widest mt-2">
+                <div className="font-mono text-[10px] text-text-dim tracking-widest mt-2">
                   PRESS DEMO MODE OR START MISSION
                 </div>
               </div>
@@ -143,7 +143,7 @@ export default function App() {
         </div>
 
         {/* Right column - AI & Analytics */}
-        <div className="flex flex-col gap-1.5" style={{ width: '210px', flexShrink: 0 }}>
+        <div className="mission-column mission-column-right flex flex-col gap-1.5" style={{ width: '210px', flexShrink: 0 }}>
           <Panel style={{ flex: '1 1 0', minHeight: 0 }}>
             <AIDecisionPanel state={state} />
           </Panel>
@@ -153,7 +153,7 @@ export default function App() {
 
           {/* Innovation cards */}
           <Panel style={{ flexShrink: 0, padding: '8px' }}>
-            <div className="font-display text-[6px] font-bold tracking-widest text-[#9b6dff] mb-1.5">RAVEN-RX TECH</div>
+            <div className="font-display text-[6px] font-bold tracking-widest text-purple mb-1.5">RAVEN-RX TECH</div>
             <div className="grid grid-cols-2 gap-0.5">
               {[
                 { title: 'FUSION', color: '#00d4ff' },
@@ -176,14 +176,14 @@ export default function App() {
 
       {/* Bottom: event log + controls */}
       <div
-        className="flex gap-1.5 px-1.5 pb-1.5"
+        className="mission-footer flex gap-1.5 px-1.5 pb-1.5"
         style={{ height: '130px', flexShrink: 0 }}
       >
         <Panel style={{ flex: 1, minWidth: 0 }}>
           <EventLog log={state.log} />
         </Panel>
         <div
-          className="flex-shrink-0 flex flex-col justify-center rounded overflow-hidden"
+          className="shrink-0 flex flex-col justify-center rounded overflow-hidden"
           style={{
             background: 'rgba(5,13,28,0.95)',
             border: '1px solid rgba(0,212,255,0.12)',

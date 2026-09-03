@@ -1,21 +1,19 @@
 import type { Route, CommNode, Vec3 } from '../simulation/types';
 
-// Terrain height function — deterministic pseudo-noise
+// Continuous terrain field shared by the terrain mesh, roads, and scenery.
 export function terrainH(x: number, z: number): number {
-  return (
-    Math.sin(x * 0.35) * Math.cos(z * 0.28) * 1.8 +
-    Math.sin(x * 0.7 + 1.1) * Math.cos(z * 0.55) * 1.2 +
-    Math.cos(x * 0.25 + 0.5) * Math.sin(z * 0.45) * 2.2 +
-    Math.sin(x * 0.15 + z * 0.2) * 0.8
-  ) * 0.75;
+  const ridgeA = 2.5 * Math.exp(-((x + 7) ** 2 + (z - 5) ** 2) / 150);
+  const ridgeB = 3.4 * Math.exp(-((x - 6) ** 2 + (z + 5) ** 2) / 190);
+  const variation = 0.8 * Math.sin(x * 0.28) * Math.cos(z * 0.24);
+  return Math.max(-0.8, ridgeA + ridgeB + variation);
 }
 
 function wp(x: number, z: number, yOffset = 0.25): Vec3 {
   return { x, y: terrainH(x, z) + yOffset, z };
 }
 
-export const SOURCE_POS: Vec3 = wp(-8.5, 7.5);
-export const DEST_POS: Vec3 = wp(8.5, -7.5);
+export const SOURCE_POS: Vec3 = wp(-28, 21);
+export const DEST_POS: Vec3 = wp(28, -21);
 
 export const INITIAL_ROUTES: Route[] = [
   {

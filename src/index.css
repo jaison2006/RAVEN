@@ -41,6 +41,30 @@ html, body, #root {
   overflow: hidden;
 }
 
+.mission-layout { min-width: 0; }
+.mission-terrain { min-height: 260px; }
+
+@media (max-width: 1050px) {
+  html, body, #root { overflow: auto; }
+  .mission-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); overflow: visible; }
+  .mission-terrain { grid-column: 1 / -1; grid-row: 1; height: min(62vw, 520px); min-height: 320px; }
+  .mission-column-left { grid-column: 1; grid-row: 2; width: auto !important; }
+  .mission-column-analysis { grid-column: 2; grid-row: 2; width: auto !important; }
+  .mission-column-right { grid-column: 1 / -1; grid-row: 3; width: auto !important; display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .mission-column-right > * { min-height: 120px; }
+  .mission-footer { height: auto !important; min-height: 170px; flex-direction: column; }
+  .mission-footer > :last-child { min-height: 96px; }
+}
+
+@media (max-width: 640px) {
+  .mission-layout { display: flex; flex-direction: column; overflow: visible; }
+  .mission-terrain { order: -1; height: 72vw; min-height: 280px; max-height: 430px; }
+  .mission-column-left, .mission-column-analysis, .mission-column-right { width: 100% !important; }
+  .mission-column-left > *, .mission-column-analysis > * { min-height: 140px; }
+  .mission-column-right { display: flex !important; }
+  .mission-footer { min-height: 260px; }
+}
+
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.25); border-radius: 2px; }
